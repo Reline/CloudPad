@@ -4,14 +4,17 @@
 	<meta name="description" content>
 	<meta name="author" content>
 	<title>CloudPad</title>
-	<link href="source.css" type="text/css">
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="source.js"></script>
     <script src="https://togetherjs.com/togetherjs-min.js"></script>
+    <link href="source.css" type="text/css">
 </head>
-<body>
+<body id="body">
 	<h1>Welcome to CloudPad!</h1>
 	<div>
         <textarea id="sharedContent" class="sharedContent" rows="5" cols="20"></textarea>
+        <button id="get-share-link">Get Share Link</button>
+        <div id="share-link">Share Link goes here</div>
     </div>
 </body>
+
