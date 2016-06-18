@@ -5,16 +5,18 @@
 	<meta name="author" content>
 	<title>CloudPad</title>
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
     <script src="source.js"></script>
-    <script src="https://togetherjs.com/togetherjs-min.js"></script>
     <link href="source.css" type="text/css">
 </head>
 <body id="body">
 	<h1>Welcome to CloudPad!</h1>
 	<div>
-        <textarea id="sharedContent" class="sharedContent" rows="5" cols="20"></textarea>
-        <button id="get-share-link">Get Share Link</button>
-        <div id="share-link">Share Link goes here</div>
+        My ID: <input type="text" id="myID"/>
+        <button id="setID">Set ID</button><br>
+        Peer ID: <input type="text" id="peerID"/>
+        <button id="connect">Connect</button><br>
+        <div id="helloworld"></div>
     </div>
 </body>
 

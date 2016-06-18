@@ -1,33 +1,36 @@
-var TogetherJSConfig_siteName = "CloudPad",
-TogetherJSConfig_toolName = "Collaboration",
-TogetherJSConfig_autoStart = true,
-TogetherJSConfig_dontShowClicks = true,
-TogetherJSConfig_suppressJoinConfirmation = true,
-TogetherJSConfig_suppressInvite = true,
-TogetherJSConfig_disableWebRTC = true,
-TogetherJSConfig_ignoreMessages = true,
-TogetherJSConfig_sharedContent = "";
+var peer = null;
 
 $(document).ready(function() {
-    TogetherJSConfig_sharedContent = document.getElementById('sharedContent').innerText;
 
-    $('#sharedContent').on('change keyup paste', function () {
-        TogetherJSConfig_sharedContent = $(this).val();
-    });
+    $('#setID').on('click', function () {
+        // create new Peer with API key with debug set to true
+        peer = new Peer($('#myID').val(), {key: '9p3zl9k4xu2chaor', debug: 3});
+        // you can pick your own id or omit the id to get a random one from the server
 
-    var target = document.getElementById('body');
-    var observer = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            if ($(mutation.addedNodes.item(0)).attr('id') == 'togetherjs-container') {
-                $(mutation.addedNodes.item(0)).hide();
-                observer.disconnect();
-            }
+        // 'open' event signifies that the Peer is ready to connect with other Peers
+        peer.on('open', function () {
+            // todo: enable connect button
+        });
+
+        peer.on('connection', function (connection) {
+            // connection is a DataConnection object used to send data
+            // 'open' event firing means that the connection is ready to transmit data
+            connection.on('open', function () {
+                connection.send("Boop");
+            });
+            // the 'data' event is fired when data is received on the connection
+            connection.on('data', function (data) {
+                $('#helloworld').append(data);
+            });
         });
     });
-    var config = { attributes: true, childList: true, characterData: true };
-    observer.observe(target, config);
 
-    $('#get-share-link').on('click', function () {
-        $('#share-link').text($('.togetherjs-share-link')[0].value);
+    $('#connect').on('click', function () {
+        var conn = peer.connect($('#peerID').val());
+        conn.on('data', function (data) {
+            $('#helloworld').append(data);
+            conn.send("Beep");
+        });
     });
+
 });
