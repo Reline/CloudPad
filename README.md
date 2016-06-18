@@ -6,7 +6,7 @@ Program with your friends, family, coworkers, pets, and plants!
 [CloudPad (Release)](http://reline.github.io/CloudPad)
 
 ## Dependencies
-[TogetherJS](https://togetherjs.com/)
+[PeerJS](http://peerjs.com/)
 
 [jQuery](https://jquery.com/)
 
@@ -22,4 +22,4 @@ Program with your friends, family, coworkers, pets, and plants!
 *   [Responsive Grid System](http://responsive.gs/)
 
 ## Development
-Values shared between collaborators are indicated by variables with the syntax `TogetherJSConfig_*` and are declared globally before including `https://togetherjs.com/togetherjs-min.js`. Content can be updated between users by setting local values equivalent to TogetherJS variables.
+A `Peer` is initialized with an ID given by the user and either an API key for access to the PeerJS server with a limit of 50 clients or an alternate server's information (Host, port, path, or an ssl key and certificate if using HTTPS).
