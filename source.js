@@ -4,7 +4,7 @@ $(document).ready(function() {
 
     $('#setID').on('click', function () {
         // create new Peer with API key with debug set to true
-        peer = new Peer($('#myID').val(), {key: '9p3zl9k4xu2chaor', debug: 3});
+        peer = new Peer($('#myID').val(), {host: '198.199.94.36', port: 9000, path: '/', debug: 3});
         // you can pick your own id or omit the id to get a random one from the server
 
         // 'open' event signifies that the Peer is ready to connect with other Peers
