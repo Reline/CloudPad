@@ -4,19 +4,29 @@
 	<meta name="description" content>
 	<meta name="author" content>
 	<title>CloudPad</title>
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="source.scss" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="source.js"></script>
-    <link href="source.css" type="text/css">
 </head>
-<body id="body">
-	<h1>Welcome to CloudPad!</h1>
-	<div>
-        My ID: <input type="text" id="myID"/>
-        <button id="setID">Set ID</button><br>
-        Peer ID: <input type="text" id="peerID"/>
-        <button id="connect">Connect</button><br>
-        <div id="helloworld"></div>
+<body class="welcome">
+    <div class="vertical-center">
+        <div class="container text-center">
+            <img src="img/cloud.png"/>
+            <h1>Welcome to CloudPad</h1>
+            <div class="info-field">
+                My ID: <input type="text" id="myID"/>
+                <button id="setID" class="btn">Set ID</button>
+            </div>
+            <div class="info-field">
+                Peer ID: <input type="text" id="peerID"/>
+                <button id="connect" class="btn">Connect</button>
+            </div>
+            <textarea id="helloworld" cols="75" rows="15"></textarea>
+        </div>
     </div>
 </body>
 
