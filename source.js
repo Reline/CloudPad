@@ -1,5 +1,8 @@
 var peer = null;
-var connectedPeers = [];
+// peer.connections[] (names of connection objects for this peer)
+// peer.connections.CONNECTION_NAME[] (connection objects between this peer and CONNECTION_NAME peer
+var requestedPeers = []; // DataConnection objects to peers that have requested connections with us
+var connectedPeers = []; // DataConnection objects to peers that we have requested connections to
 
 $(document).ready(function() {
 
@@ -17,7 +20,27 @@ $(document).ready(function() {
     $('#connect').on('click', function () {
 
         var requestedPeer = $('#peerID').val();
-        if (connectedPeers.indexOf(requestedPeer) == -1) {
+
+        // if the peer we requested a connection with is not in our requestedPeers list,
+        // check the connectedPeers list, if not found then create a new connection and add it to connectedPeers
+        var duplicate = false;
+        for (var i = 0; i < connectedPeers.length; i++) {
+            if (connectedPeers[i].peer == requestedPeer)
+                duplicate = true;
+        }
+
+        // if in requestedPeers, push to connectedPeers and pop from requestedPeers
+        if (!duplicate) {
+            for (var i = 0; i < requestedPeers.length; i++) {
+                if (requestedPeers[i].peer == requestedPeer) {
+                    connectedPeers.push(requestedPeers[i]);
+                    requestedPeers.splice(i, 1);
+                    duplicate = true;
+                }
+            }
+        }
+
+        if (!duplicate) {
             // create a connection
             var c = peer.connect(requestedPeer, {
                 serialization: 'none'
@@ -28,18 +51,16 @@ $(document).ready(function() {
             c.on('error', function (err) {
                 alert(err);
             });
+            connectedPeers.push(c);
         }
         
     });
 
-    $('#shared').on('change', function () {
-        console.log("Change made");
+    $('#shared').on('change keydown keyup paste', function () {
         // for each active connection, send the data
         var data = $('#shared').val();
-        console.log("Data to be sent: " + data);
-
         connectedPeers.forEach(function (c) {
-            c.requestedPeer.send(data);
+            c.send(data);
         });
     });
 
@@ -58,23 +79,35 @@ function setupPeer () {
 }
 
 function connect(c) {
-    console.log("Connecting to Peer");
-
-    if (connectedPeers.indexOf(c.peer) == -1) {
-        var requestedPeer = c.peer;
-        connectedPeers.push({requestedPeer: c});
+    // if not in connectedPeers or requestedPeers add to requestedPeers
+    var duplicate = false;
+    for (var i = 0; i < requestedPeers.length; i++) {
+        if (requestedPeers[i].peer == c.peer)
+            duplicate = true;
     }
 
+    for (var i = 0; i < connectedPeers.length; i++) {
+        if (connectedPeers[i].peer == c.peer)
+            duplicate = true;
+    }
+
+    if (!duplicate)
+        requestedPeers.push(c);
+
     c.on('data', function (data) {
-        console.log("Received data: " + data);
-        $('#shared').val(data);
+        // change shared content if connection requested on both ends
+        var bidirectional = false;
+        for (var i = 0; i < connectedPeers.length; i++) {
+            if (connectedPeers[i].peer == c.peer)
+                bidirectional = true;
+        }
+
+        if (bidirectional)
+            $('#shared').val(data);
     });
 
     c.on('close', function () {
-        console.log("Connection closed");
-        connectedPeers.splice(
-            connectedPeers.indexOf(c.peer), 1
-        );
+        // TODO: remove our peer and connection on close
     });
 }
 
