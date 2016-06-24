@@ -1,29 +1,65 @@
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="description" content>
-	<meta name="author" content>
+	<meta charset="utf-8"/>
+    <meta name="description" content="Connect and compile code with others online using CloudPad."/>
+    <meta name="keywords" content="CloudPad, Online compiler, Peer-to-peer, Client-to-client">
+    <meta name="author" content="Nathan Reline"/>
+    <meta name="robots" content="noarchive"/>
+    <meta name="googlebot" content="noarchive"/>
+    <meta name="google" content="notranslate"/>
 	<title>CloudPad</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="bootstrap.min.css">
     <link href="source.scss" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="jquery-2.1.1.min.js"></script>
+    <script src="peer.min.js"></script>
+    <script src="bootstrap.min.js"></script>
     <script src="source.js"></script>
 </head>
 <body class="welcome">
+    <div class="overlay">
+        <div id="loading-img"></div>
+    </div>
     <div class="vertical-center">
         <div class="container text-center">
             <img src="img/cloud.png"/>
             <h1>Welcome to CloudPad</h1>
             <div class="info-field">
-                My ID: <input type="text" id="myID"/>
-                <button id="setID" class="btn">Set ID</button>
+                My ID: <input type="text" id="myID" maxlength="20"/>
+                <button id="setID" class="btn btn-default">Set ID</button>
             </div>
+            <div id="peeron-error-invalid-id" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> ID contains illegal characters.
+            </div>
+            <div id="peeron-error-unavailable-id" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> ID has already been taken.
+            </div>
+            <div id="peeron-error-browser-incompatible" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> Browser does not support WebRTC.
+            </div>
+
             <div class="info-field">
-                Peer ID: <input type="text" id="peerID"/>
-                <button id="connect" class="btn">Connect</button>
+                Peer ID: <input type="text" id="peerID" maxlength="20"/>
+                <button id="connect" class="btn btn-default">Connect</button>
+            </div>
+            <div id="peeron-error-server-error" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> Unable to reach the server.
+            </div>
+            <div id="peeron-error-peer-unavailable" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> Peer does not exist.
+            </div>
+
+            <div class="row">
+                <span class="col-md-4"></span>
+                <span class="col-md-2 currentID"><label>Current ID: </label><span id="currentID"></span></span>
+                <span class="col-md-2 connectedIDs"><label>Connected IDs: </label><span id="connectedIDs"></span></span>
+                <span class="col-md-4"></span>
             </div>
             <textarea id="shared" cols="75" rows="15"></textarea>
         </div>

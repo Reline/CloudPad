@@ -1,14 +1,26 @@
 var peer = null;
-// peer.connections[] (names of connection objects for this peer)
-// peer.connections.CONNECTION_NAME[] (connection objects between this peer and CONNECTION_NAME peer
-var requestedPeers = []; // DataConnection objects to peers that have requested connections with us
-var connectedPeers = []; // DataConnection objects to peers that we have requested connections to
+var requestedPeers = []; // DataConnection objects to peers that have unrequited connection requests
+var connectedPeers = []; // DataConnection objects to peers that requested connections with one another
 
 $(document).ready(function() {
 
+    // disable set id button if the input is empty
+    $('#setID').prop('disabled', true);
+    $('#myID').keyup(function () {
+        $('#setID').prop('disabled', this.value == "" ? true : false);
+    })
+
+    // disable connect button if the input is empty
+    $('#connect').prop('disabled', true);
+    $('#peerID').keyup(function () {
+        $('#connect').prop('disabled', (this.value == "" || peer === null) ? true : false);
+    })
+
+    // setup our new peer our close and create a new peer if one already exists
     $('#setID').on('click', function () {
         if (peer == null) {
             setupPeer();
+            $('#connect').prop('disabled', ($('#peerID').value == "" || peer === null) ? true : false);
         } else if ($('#myID').val() != peer.id) {
             // close old peer
             peer.destroy();
@@ -18,43 +30,32 @@ $(document).ready(function() {
     });
 
     $('#connect').on('click', function () {
+        $('.overlay').show();
 
         var requestedPeer = $('#peerID').val();
 
-        // if the peer we requested a connection with is not in our requestedPeers list,
-        // check the connectedPeers list, if not found then create a new connection and add it to connectedPeers
-        var duplicate = false;
-        for (var i = 0; i < connectedPeers.length; i++) {
-            if (connectedPeers[i].peer == requestedPeer)
-                duplicate = true;
-        }
-
-        // if in requestedPeers, push to connectedPeers and pop from requestedPeers
-        if (!duplicate) {
-            for (var i = 0; i < requestedPeers.length; i++) {
-                if (requestedPeers[i].peer == requestedPeer) {
-                    connectedPeers.push(requestedPeers[i]);
-                    requestedPeers.splice(i, 1);
-                    duplicate = true;
-                }
-            }
-        }
-
-        if (!duplicate) {
+        if (!isConnectedPeer(requestedPeer) && isRequestedPeer(requestedPeer)) {
+            movePeer(requestedPeers, connectedPeers, requestedPeer);
+            $('.overlay').hide();
+            // if this is a new peer whom we have no connections with...
+        } else if (!isConnectedPeer(requestedPeer) && !isRequestedPeer(requestedPeer)) {
             // create a connection
             var c = peer.connect(requestedPeer, {
                 serialization: 'none'
             });
             c.on('open', function () {
                 connect(c);
+                $('.overlay').hide();
             });
             c.on('error', function (err) {
                 alert(err);
             });
             connectedPeers.push(c);
         }
-        
-    });
+
+        updateConnectedIDs();
+
+    }); // end connect.on('click')
 
     $('#shared').on('change keydown keyup paste', function () {
         // for each active connection, send the data
@@ -70,45 +71,114 @@ function setupPeer () {
     // create new Peer and assign ID with debug set to true using local PeerServer
     peer = new Peer($('#myID').val(), {host: '198.199.94.36', port: 9000, path: '/', debug: 3});
 
+    peer.on('error', function (err) {
+        console.error(err);
+        switch(err.type) {
+           case "browser-incompatible":
+               $('#peeron-error-browser-incompatible').show();
+               break;
+           case "disconnected":
+               $('#peeron-error-disconnected').show(); // todo
+               break;
+           case "invalid-id":
+               $('#currentID').text("");
+               $('#peeron-error-invalid-id').show();
+               break;
+           case "network":
+               $('#peeron-error-network').show(); // todo
+               break;
+           case "peer-unavailable":
+               removePeer(connectedPeers, $('#peerID').val());
+               updateConnectedIDs();
+               $('.overlay').hide();
+               $('#peeron-error-peer-unavailable').show();
+               break;
+           case "server-error":
+               $('#peeron-error-server-error').show(); // todo
+               break;
+           case "socket-error":
+               $('#peeron-error-socket-error').show(); // todo
+               break;
+           case "socket-closed":
+               $('#peeron-error-socket-closed').show(); // todo
+               break;
+           case "unavailable-id":
+               $('#currentID').text("");
+               $('#peeron-error-unavailable-id').show();
+               break;
+       }
+    });
+
     // await connection from others
     peer.on('connection', connect);
 
-    peer.on('error', function (err) {
-        console.log(err);
-    });
+    $('#currentID').text(peer.id);
 }
 
 function connect(c) {
-    // if not in connectedPeers or requestedPeers add to requestedPeers
-    var duplicate = false;
-    for (var i = 0; i < requestedPeers.length; i++) {
-        if (requestedPeers[i].peer == c.peer)
-            duplicate = true;
-    }
 
-    for (var i = 0; i < connectedPeers.length; i++) {
-        if (connectedPeers[i].peer == c.peer)
-            duplicate = true;
-    }
-
-    if (!duplicate)
+    if (!isConnectedPeer(c.peer) && !isRequestedPeer(c.peer)) {
         requestedPeers.push(c);
+    }
 
     c.on('data', function (data) {
         // change shared content if connection requested on both ends
-        var bidirectional = false;
-        for (var i = 0; i < connectedPeers.length; i++) {
-            if (connectedPeers[i].peer == c.peer)
-                bidirectional = true;
-        }
-
-        if (bidirectional)
+        if (isConnectedPeer(c.peer))
             $('#shared').val(data);
     });
 
     c.on('close', function () {
         // TODO: remove our peer and connection on close
     });
+} // end connect(c)
+
+function isConnectedPeer(peer) {
+    for (var i = 0; i < connectedPeers.length; i++) {
+        if (connectedPeers[i].peer == peer)
+            return true;
+    }
+    return false;
+}
+
+function isRequestedPeer(peer) {
+    for (var i = 0; i < requestedPeers.length; i++) {
+        if (requestedPeers[i].peer == peer)
+            return true;
+    }
+    return false;
+}
+
+function movePeer(loc, dest, peer) {
+    for (var i = 0; i < loc.length; i++) {
+        if (loc[i].peer == peer) {
+            dest.push(loc[i]);
+            loc.splice(i, 1);
+        }
+    }
+}
+
+function removePeer(loc, peer) {
+    for (var i = 0; i < loc.length; i++) {
+        console.log(loc[i].peer);
+        console.log(peer);
+        if (loc[i].peer == peer) {
+            console.log("splicing");
+            loc.splice(i, 1);
+            console.log(loc);
+        }
+    }
+}
+
+function updateConnectedIDs() {
+    // update connected ids on ui
+    $('#connectedIDs').text("");
+    for (var i = 0; i < connectedPeers.length; i++) {
+        if (i == 0) {
+            $('#connectedIDs').append(connectedPeers[i].peer);
+        } else {
+            $('#connectedIDs').append(", " + connectedPeers[i].peer);
+        }
+    }
 }
 
 window.onunload = window.onbeforeunload = function (e) {
