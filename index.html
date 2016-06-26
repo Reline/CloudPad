@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" ng-app="cloudpad">
 <head>
 	<meta charset="utf-8"/>
     <meta name="description" content="Connect and compile code with others online using CloudPad."/>
@@ -9,15 +9,11 @@
     <meta name="google" content="notranslate"/>
 	<title>CloudPad</title>
 
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link href="source.scss" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/source.scss" rel="stylesheet">
 
-    <script src="jquery-2.1.1.min.js"></script>
-    <script src="peer.min.js"></script>
-    <script src="bootstrap.min.js"></script>
-    <script src="source.js"></script>
 </head>
-<body class="welcome">
+<body class="welcome" ng-controller="DeveloperListController">
     <div class="overlay">
         <div id="loading-img"></div>
     </div>
@@ -56,13 +52,24 @@
             </div>
 
             <div class="row">
-                <span class="col-md-4"></span>
-                <span class="col-md-2 currentID"><label>Current ID: </label><span id="currentID"></span></span>
-                <span class="col-md-2 connectedIDs"><label>Connected IDs: </label><span id="connectedIDs"></span></span>
-                <span class="col-md-4"></span>
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3 currentID"><label>Current ID: </label><span id="currentID"></span></div>
+                <div class="col-sm-3 connectedIDs"><label>Connected IDs: </label><span id="connectedIDs"></span></div>
+                <div class="col-sm-3"></div>
             </div>
             <textarea id="shared" cols="75" rows="15"></textarea>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button id="compile" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-console" aria-hidden="true"></span> Compile</button> <!-- forward, chevron-right, console, triangle-right -->
+                </div>
+                <div class="col-md-3"></div>
+            </div>
         </div>
     </div>
+    <script src="./js/jquery-2.1.1.min.js"></script>
+    <script src="./js/peer.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/source.js"></script>
 </body>
 

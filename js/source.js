@@ -65,6 +65,23 @@ $(document).ready(function() {
         });
     });
 
+    // send text within 'shared' to server to compile and retrieve the result
+    $('#compile').on('click', function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://198.199.94.36/cloudpad/php/run.php', /** http://cors.io/?u= **/
+            async: true,
+            data: { script: $('#shared').val() },
+            dataType: "text",
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.error(e);
+            }
+        });
+    });
+
 });
 
 function setupPeer () {
@@ -159,12 +176,8 @@ function movePeer(loc, dest, peer) {
 
 function removePeer(loc, peer) {
     for (var i = 0; i < loc.length; i++) {
-        console.log(loc[i].peer);
-        console.log(peer);
         if (loc[i].peer == peer) {
-            console.log("splicing");
             loc.splice(i, 1);
-            console.log(loc);
         }
     }
 }
