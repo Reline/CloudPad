@@ -1,4 +1,4 @@
-<html lang="en" ng-app="cloudpad">
+<html lang="en">
 <head>
 	<meta charset="utf-8"/>
     <meta name="description" content="Connect and compile code with others online using CloudPad."/>
@@ -7,13 +7,14 @@
     <meta name="robots" content="noarchive"/>
     <meta name="googlebot" content="noarchive"/>
     <meta name="google" content="notranslate"/>
+    <link rel="icon" href="favicon.ico">
 	<title>CloudPad</title>
 
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/source.scss" rel="stylesheet">
 
 </head>
-<body class="welcome" ng-controller="DeveloperListController">
+<body class="welcome">
     <div class="overlay">
         <div id="loading-img"></div>
     </div>
@@ -61,7 +62,7 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <button id="compile" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-console" aria-hidden="true"></span> Compile</button> <!-- forward, chevron-right, console, triangle-right -->
+                    <button id="compile" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-console" aria-hidden="true"></span> Compile</button>
                 </div>
                 <div class="col-md-3"></div>
             </div>

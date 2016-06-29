@@ -1,2 +1,5 @@
 #include <iostream>
-int main() { std::cout << "qwer"; }
+
+int main() {
+std::cout << "hey";
+}

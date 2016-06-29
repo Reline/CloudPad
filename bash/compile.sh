@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# create script file and fill with content
-content=$1
-script="/var/www/html/cloudpad/scripts/user_script.cpp"
-echo "$content" > "$script"
+content=$1 # set content equal to the first argument
+script="/var/www/html/cloudpad/scripts/user_script.cpp" # create a cpp file
+echo "$content" > "$script" # echo the code into the file
 
 # compile script
 g++ "$script"
