@@ -1,3 +1,5 @@
+var hostname = 'projectplay.xyz';
+
 var peer = null;
 var requestedPeers = []; // DataConnection objects to peers that have unrequited connection requests
 var connectedPeers = []; // DataConnection objects to peers that requested connections with one another
@@ -69,7 +71,7 @@ $(document).ready(function() {
     $('#compile').on('click', function () {
         $.ajax({
             type: 'GET',
-            url: 'http://198.199.94.36/cloudpad/php/run.php', /** http://cors.io/?u= **/
+            url: 'http://' + hostname + '/CloudPad/php/run.php', /** http://cors.io/?u= **/
             async: true,
             data: { script: $('#shared').val() },
             dataType: "text",
@@ -86,7 +88,7 @@ $(document).ready(function() {
 
 function setupPeer () {
     // create new Peer and assign ID with debug set to true using local PeerServer
-    peer = new Peer($('#myID').val(), {host: '198.199.94.36', port: 9000, path: '/', debug: 3});
+    peer = new Peer($('#myID').val(), {host: hostname, port: 9000, path: '/', debug: 3});
 
     peer.on('error', function (err) {
         console.error(err);
