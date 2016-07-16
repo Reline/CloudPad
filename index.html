@@ -1,14 +1,76 @@
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="description" content>
-	<meta name="author" content>
+	<meta charset="utf-8"/>
+    <meta name="description" content="Connect and compile code with others online using CloudPad."/>
+    <meta name="keywords" content="CloudPad, Online compiler, Peer-to-peer, Client-to-client">
+    <meta name="author" content="Nathan Reline"/>
+    <meta name="robots" content="noarchive"/>
+    <meta name="googlebot" content="noarchive"/>
+    <meta name="google" content="notranslate"/>
+    <link rel="icon" href="favicon.ico">
 	<title>CloudPad</title>
-	<link href="source.css" type="text/css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="source.js"></script>
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/source.scss" rel="stylesheet">
+
 </head>
-<body>
-	<h1>Welcome to CloudPad!</h1>
-	<div class="shared" contentEditable="true"></div>
+<body class="welcome">
+    <div class="overlay">
+        <div id="loading-img"></div>
+    </div>
+    <div class="vertical-center">
+        <div class="container text-center">
+            <img src="img/cloud.png"/>
+            <h1>Welcome to CloudPad</h1>
+            <div class="info-field">
+                My ID: <input type="text" id="myID" maxlength="20"/>
+                <button id="setID" class="btn btn-default">Set ID</button>
+            </div>
+            <div id="peeron-error-invalid-id" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> ID contains illegal characters.
+            </div>
+            <div id="peeron-error-unavailable-id" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> ID has already been taken.
+            </div>
+            <div id="peeron-error-browser-incompatible" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> Browser does not support WebRTC.
+            </div>
+
+            <div class="info-field">
+                Peer ID: <input type="text" id="peerID" maxlength="20"/>
+                <button id="connect" class="btn btn-default">Connect</button>
+            </div>
+            <div id="peeron-error-server-error" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> Unable to reach the server.
+            </div>
+            <div id="peeron-error-peer-unavailable" class="alert alert-danger fade in" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error:</strong> Peer does not exist.
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3 currentID"><label>Current ID: </label><span id="currentID"></span></div>
+                <div class="col-sm-3 connectedIDs"><label>Connected IDs: </label><span id="connectedIDs"></span></div>
+                <div class="col-sm-3"></div>
+            </div>
+            <textarea id="shared" cols="75" rows="15"></textarea>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button id="compile" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-console" aria-hidden="true"></span> Compile</button>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/jquery-2.1.1.min.js"></script>
+    <script src="./js/peer.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/source.js"></script>
 </body>
+
