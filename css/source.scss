@@ -1,5 +1,7 @@
 html, body {
   height: 100%;
+  font: 400 15px/1.8 Source Sans Pro,sans-serif;
+  padding-top: 70px
 }
 
 h1 {
@@ -83,4 +85,58 @@ h1 {
 
 .connectedIDs {
   color: yellow;
+}
+
+.logo {
+  max-height: 2em;
+  padding-right: .5em;
+  margin-top: -.45em
+}
+
+.navbar {
+  font-family: Droid Sans,sans-serif;
+  background-color: #101010;
+  margin-bottom: 20px
+}
+
+.navbar .navbar-brand,.navbar li a {
+  color: #d5d5d5!important
+}
+
+.navbar li a:hover {
+  color: #fff!important;
+  background-color: #494950!important
+}
+
+.dropdown-menu,.navbar-default .navbar-nav>.active>a {
+  color: #fff;
+  background-color: #29292c
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block
+}
+
+.navbar-default .navbar-toggle {
+  background-color: #101010!important;
+  border-color: #000!important
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px
+}
+
+::-webkit-scrollbar-track {
+  border: 1px solid #101010;
+  border-radius: 10px
+}
+
+::-webkit-scrollbar-thumb {
+  background: #101010;
+  border-radius: 10px
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #494950
 }
