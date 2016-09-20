@@ -1,7 +1,7 @@
 # CloudPad
 Program with your friends, family, coworkers, pets, and plants!
 
-[CloudPad (Development)](http://projectplay.xyz/cloudpad)
+[CloudPad (Development)](http://projectplay.xyz/CloudPad)
 
 [CloudPad (Production)](http://reline.github.io/CloudPad)
 
