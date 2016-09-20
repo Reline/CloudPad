@@ -1,9 +1,9 @@
 # CloudPad
 Program with your friends, family, coworkers, pets, and plants!
 
-[CloudPad (Developer)](http://198.199.94.36/cloudpad)
+[CloudPad (Development)](http://198.199.94.36/cloudpad)
 
-[CloudPad (Release)](http://reline.github.io/CloudPad)
+[CloudPad (Production)](http://reline.github.io/CloudPad)
 
 ## Dependencies
 [PeerJS](http://peerjs.com/)
