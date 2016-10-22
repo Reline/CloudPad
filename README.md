@@ -1,11 +1,11 @@
 # [CloudPad](https://reline.github.io/CloudPad)
 Program with your friends, family, coworkers, pets, and plants!
 
-Choose an ID to be known as and connect with any number of peers using their IDs. Each participant must click `Connect` with at least one other peer within a group of connected peers.
+Choose an ID to be known as and connect with any number of peers using their IDs. Each participant must click `Connect` with at least one other peer within a group of connected peers. Watch your display update live while coding with others. 
 
-Watch your display update live while coding with others, and press the `>_Compile` button to view a result of the code in the console.
+I've set up an example on how one might host this on their server and compile C++ code while sharing. **Use this at your own risk.** Take precautions to prevent users from running malicious code on your server.
 
-**Currently only supports C++ compilation**
+Happy coding
 
 ## Dependencies
 [PeerJS](http://peerjs.com/)
@@ -13,5 +13,3 @@ Watch your display update live while coding with others, and press the `>_Compil
 [jQuery](https://jquery.com/)
 
 [Bootstrap](http://getbootstrap.com/)
-
-[GCC](https://gcc.gnu.org/releases.html)
