@@ -2,7 +2,7 @@
     header("Access-Control-Allow-Origin: http://projectplay.xyz");
     header("Access-Control-Allow-Origin: http://reline.github.io");
 
-    $rootDir = "/var/www/html/CloudPad";
+    $rootDir = "..";
 
     if($_GET) {
 

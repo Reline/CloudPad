@@ -1,4 +1,4 @@
-var hostname = 'projectplay.xyz';
+var hostname = 'reline.github.io';
 
 var peer = null;
 var requestedPeers = []; // DataConnection objects to peers that have unrequited connection requests
